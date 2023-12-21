@@ -1,17 +1,15 @@
 (function () {
   let timer = null,
     htmlDom = document.querySelector("html"),
-    oldHtmlFontSize = htmlDom.style.fontSize,
     bodyDom = document.querySelector("body"),
     oldBodyFontSize = getComputedStyle(bodyDom).fontSize;
   let options = {
     dw: 1920,
     dh: 1080,
-    resize: true,
     delay: 0,
   };
 
-  function init(opts = {}) {
+  function setOptions(opts = {}) {
     Object.assign(options, opts);
     bodyDom.style.fontSize = oldBodyFontSize;
     keepAuto();
@@ -38,17 +36,11 @@
     }
   }
 
-  function off() {
-    clearTimeout(timer);
-    timer = null;
-    window.removeEventListener("resize", resizeListener);
-    htmlDom.style.fontSize = oldHtmlFontSize;
-  }
+  window.addEventListener("resize", resizeListener);
 
-  options.resize && window.addEventListener("resize", resizeListener);
-
+  setOptions()
+  
   window.autoRem = {
-    init,
-    off,
+    setOptions,
   };
 })();
